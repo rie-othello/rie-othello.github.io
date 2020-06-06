@@ -160,7 +160,7 @@ function addDot(id){
 		else{
 			addWhiteDot(id);
 		}
-		console.log(direction);
+		// console.log(direction);
 		for(var i = 0; i < direction.length; i++){
 			for(var j = 1; j < 8; j++){
 				if(direction[i] == "up"){
@@ -255,6 +255,7 @@ function addDot(id){
 		}
 		changeChance();
 		document.getElementById("chance").innerHTML = chance;
+        checkEnd();
 		count();
 	}
 	else{
@@ -333,6 +334,25 @@ function count(){
 	}
 }
 
+function checkEnd(){
+    var end = true;
+	for(var i = 0; i < 64; i++){
+		var col = i % 8;
+		var row = parseInt(i/8);
+		var id = (row+1) + "-" + (col+1);
+        var empty = validateEmpty(id);
+	    var direction = validateLegal(id);
+// console.log(i, empty, direction);
+        if (empty && direction != ""){
+            end = false;
+        }
+	}
+    if (end == true){
+        alert("Game Over! Please reload the page and play it again!");
+        location.reload();
+    }
+}
+
 function getColor(id){
 	var element = document.getElementById(id);
 	if(element == null || element.childNodes.length == 0){
@@ -391,6 +411,7 @@ function validateLegal(id){
 		}		
 	}
 	
+
 	/*Check in direction for opposite color, if found, push in validDir.*/
 	var dirCheck = [];
 	for(var i = 0; i < adjOpp.length; i++){
@@ -407,6 +428,7 @@ function validateLegal(id){
 		if(rowDiff == 0 && colDiff == -1){dirCheck.push("left");}
 		if(rowDiff == -1 && colDiff == -1){dirCheck.push("upleft");}
 	}
+
 	var validDir = [];
 	for(var i = 0; i < dirCheck.length; i++){
 		var checkArr = [];	
@@ -417,6 +439,9 @@ function validateLegal(id){
 				if(temp[0] > 0 && temp[0] < 9 && temp[2] > 0 && temp[2] < 9){
 					checkArr.push(temp);
 					var color = getColor(temp);
+                    if (color == "Empty"){
+                        break;
+                    }
 					if(color == chance){
 						validDir.push(dirCheck[i]);
 					}
@@ -427,6 +452,9 @@ function validateLegal(id){
 				if(temp[0] > 0 && temp[0] < 9 && temp[2] > 0 && temp[2] < 9){
 					checkArr.push(temp);
 					var color = getColor(temp);
+                    if (color == "Empty"){
+                        break;
+                    }
 					if(color == chance){
 						validDir.push(dirCheck[i]);
 					}
@@ -437,6 +465,9 @@ function validateLegal(id){
 				if(temp[0] > 0 && temp[0] < 9 && temp[2] > 0 && temp[2] < 9){
 					checkArr.push(temp);
 					var color = getColor(temp);
+                    if (color == "Empty"){
+                        break;
+                    }
 					if(color == chance){
 						validDir.push(dirCheck[i]);
 					}
@@ -447,6 +478,9 @@ function validateLegal(id){
 				if(temp[0] > 0 && temp[0] < 9 && temp[2] > 0 && temp[2] < 9){
 					checkArr.push(temp);
 					var color = getColor(temp);
+                    if (color == "Empty"){
+                        break;
+                    }
 					if(color == chance){
 						validDir.push(dirCheck[i]);
 					}
@@ -457,6 +491,9 @@ function validateLegal(id){
 				if(temp[0] > 0 && temp[0] < 9 && temp[2] > 0 && temp[2] < 9){
 					checkArr.push(temp);
 					var color = getColor(temp);
+                    if (color == "Empty"){
+                        break;
+                    }
 					if(color == chance){
 						validDir.push(dirCheck[i]);
 					}
@@ -467,6 +504,9 @@ function validateLegal(id){
 				if(temp[0] > 0 && temp[0] < 9 && temp[2] > 0 && temp[2] < 9){
 					checkArr.push(temp);
 					var color = getColor(temp);
+                    if (color == "Empty"){
+                        break;
+                    }
 					if(color == chance){
 						validDir.push(dirCheck[i]);
 					}
@@ -477,6 +517,9 @@ function validateLegal(id){
 				if(temp[0] > 0 && temp[0] < 9 && temp[2] > 0 && temp[2] < 9){
 					checkArr.push(temp);
 					var color = getColor(temp);
+                    if (color == "Empty"){
+                        break;
+                    }
 					if(color == chance){
 						validDir.push(dirCheck[i]);
 					}
@@ -487,6 +530,9 @@ function validateLegal(id){
 				if(temp[0] > 0 && temp[0] < 9 && temp[2] > 0 && temp[2] < 9){
 					checkArr.push(temp);
 					var color = getColor(temp);
+                    if (color == "Empty"){
+                        break;
+                    }
 					if(color == chance){
 						validDir.push(dirCheck[i]);
 					}
