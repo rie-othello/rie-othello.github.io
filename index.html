@@ -329,6 +329,73 @@ function reverseColor(id){
 	}
 }
 
+function computerMove(){
+	var valid = [];
+	for(var i = 0; i < 64; i++){
+		var col = i % 8;
+		var row = parseInt(i/8);
+		var id = (row+1) + "-" + (col+1);
+		var empty = validateEmpty(id);
+		var direction = validateLegal(id);
+		if (empty && direction != ""){
+			valid.push(id);
+		}
+	}
+	var corners = ["1-1", "1-8", "8-1", "8-8"];
+	var cornerBool = false;
+	for (index = 0; index < corners.length; ++index) {
+		if (valid.includes(corners[index])){
+			var compMove = corners[index];
+			cornerBool = true;
+			addDot(compMove);
+			break;
+		}
+	}
+
+	if (cornerBool == false) {
+		var edges = ["1-3", "1-4", "1-5", "1-6", "3-1", "3-8", "4-1", "4-8", "5-1", "5-8", "6-1", "6-8", "8-3", "8-4", "8-5", "8-6"];
+		var edgeBool = false;
+		for (index = 0; index < edges.length; ++index) {
+			if (valid.includes(edges[index])){
+				var compMove = edges[index];
+				edgeBool = true;
+				addDot(compMove);
+				break;
+			}
+		}
+
+		if (edgeBool == false) {
+			var centers = ["3-3", "3-4", "3-5", "3-6", "4-3", "4-6", "5-3", "5-6", "6-3", "6-4", "6-5", "6-6"];
+			var centerBool = false;
+			for (index = 0; index < centers.length; ++index) {
+				if (valid.includes(centers[index])){
+					var compMove = centers[index];
+					centerBool = true;
+					addDot(compMove);
+					break;
+				}
+			}
+			if (centerBool == false){
+				var middles = ["2-3", "2-4", "2-5", "2-6", "3-2", "3-7", "4-2", "4-7", "5-2", "5-7", "6-2", "6-7", "7-3", "7-4", "7-5", "7-6"];
+				var middleBool = false;
+				for (index = 0; index < middles.length; ++index) {
+					if (valid.includes(middles[index])){
+						var compMove = middles[index];
+						middleBool = true;
+						addDot(compMove);
+						break;
+					}
+				}
+			
+				if (middleBool == false){
+					const randCompMove = valid[Math.floor(Math.random() * valid.length)];
+					addDot(randCompMove);
+				}
+			}
+		}
+	}
+}
+
 function init(mode){
 	for (var i = 0; i < 64; i++){
 		var mainBoard = document.getElementById("mainBoard");
@@ -340,19 +407,7 @@ function init(mode){
 			addDot(this.id);
 			if (mode == "single"){
 				if (chance == "White") {
-					var valid = [];
-					for(var i = 0; i < 64; i++){
-						var col = i % 8;
-						var row = parseInt(i/8);
-						var id = (row+1) + "-" + (col+1);
-						var empty = validateEmpty(id);
-						var direction = validateLegal(id);
-						if (empty && direction != ""){
-							valid.push(id);
-						}
-					}
-					const compMove = valid[Math.floor(Math.random() * valid.length)];
-					addDot(compMove);
+					computerMove();
 				}
 			}
 		});
@@ -391,7 +446,7 @@ function count(){
 				black++;
 			}
 			else{
-				console.log("What");
+				console.log("empty");
 			}
 		}
 	}
@@ -404,6 +459,7 @@ function count(){
 			alert("White is the winner");
 	}
 }
+
 
 function checkEnd(){
     var end = true;
@@ -418,7 +474,12 @@ function checkEnd(){
         }
 	}
     if (end == true){
-        alert("Game Over! Please reload the page and play it again!");
+		if (chance == "Black"){
+			alert("White is the winner!");
+		}
+		else if (chance == "White"){
+			alert("Black is the winner!");
+		}
         location.reload();
     }
 }
