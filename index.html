@@ -284,6 +284,21 @@ function init(){
 		element.id = (row+1) + "-" + (col+1);
 		element.addEventListener('click',function(event){
 			addDot(this.id);
+			if (chance == "White") {
+				var valid = [];
+				for(var i = 0; i < 64; i++){
+					var col = i % 8;
+					var row = parseInt(i/8);
+					var id = (row+1) + "-" + (col+1);
+					var empty = validateEmpty(id);
+					var direction = validateLegal(id);
+					if (empty && direction != ""){
+						valid.push(id);
+					}
+				}
+				const compMove = valid[Math.floor(Math.random() * valid.length)];
+				addDot(compMove);
+			}
 		});
 		mainBoard.appendChild(element).style.backgroundColor = 'rgb(120, 180, 174)';
 	}
@@ -342,7 +357,6 @@ function checkEnd(){
 		var id = (row+1) + "-" + (col+1);
         var empty = validateEmpty(id);
 	    var direction = validateLegal(id);
-// console.log(i, empty, direction);
         if (empty && direction != ""){
             end = false;
         }
